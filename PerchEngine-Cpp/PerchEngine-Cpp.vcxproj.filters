@@ -55,6 +55,9 @@
     <Filter Include="Source Files\Engine Components">
       <UniqueIdentifier>{c293578f-cd73-4058-93e8-97b506b3fc93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Github/Workflows">
+      <UniqueIdentifier>{7476b024-0664-4205-9d24-b724fb8d3860}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h">
@@ -254,5 +257,14 @@
     <ClCompile Include="src\Renderer\SDLRenderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+    <None Include="..\.github\workflows\release.yml">
+      <Filter>Github/Workflows</Filter>
+    </None>
+    <None Include="..\.github\workflows\c-cpp.yml">
+      <Filter>Github/Workflows</Filter>
+    </None>
   </ItemGroup>
 </Project>

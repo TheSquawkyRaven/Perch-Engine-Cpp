@@ -1,8 +1,10 @@
 #include "pch.h"
 
 #include "Rect2.h"
+#include "../Squawk/Log.h"
 
 using namespace Perch;
+using namespace Squawk;
 using namespace std;
 
 void Rect2::UpdateSDLRect()
@@ -33,22 +35,22 @@ Rect2::Rect2(float x, float y, float w, float h)
 shared_ptr<SDL_Rect> Rect2::CreateSDLRect(Vector2 position, Vector2 size)
 {
 	shared_ptr<SDL_Rect> rect = shared_ptr<SDL_Rect>(new SDL_Rect);
-	rect->x = position.x;
-	rect->y = position.y;
-	rect->w = size.x;
-	rect->h = size.y;
+	rect->x = (int)(position.x + 0.5f);
+	rect->y = (int)(position.y + 0.5f);
+	rect->w = (int)(size.x + 0.5f);
+	rect->h = (int)(size.y + 0.5f);
 
 	return rect;
 }
 
 Vector2 Rect2::GetPosition()
 {
-	return Vector2(sdlRect->x, sdlRect->y);
+	return Vector2(position.x, position.y);
 }
 
 Vector2 Rect2::GetSize()
 {
-	return Vector2(sdlRect->w, sdlRect->h);
+	return Vector2(size.x, size.y);
 }
 
 void Rect2::SetPosition(Vector2 position)
@@ -113,4 +115,12 @@ bool Rect2::PointIsIn(Vector2 point, Vector2 position, Vector2 size)
 		return false;
 	}
 	return true;
+}
+
+string Rect2::ToString()
+{
+	char* s = Log::ToString("[Pos%s, Size%s]", position.ToString().c_str(), size.ToString().c_str());
+	string str(s);
+	free(s);
+	return str;
 }

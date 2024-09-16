@@ -32,37 +32,12 @@ void Log::PrintWithColor(const char* str, int color)
 
 char* Log::AddStrInfo(char* str)
 {
-    const char* format = "Squawk Log: %s";
-    size_t size = std::strlen(str) + std::strlen(format);
-
-    char* buffer = (char*)realloc(str, size);
-    if (buffer == nullptr)
-    {
-        PrintWithColor("ERROR: Memory reallocation failed!", CONSOLE_COLOR_RED);
-        free(str);
-        return nullptr;
-    }
-
-    sprintf_s(buffer, size, format, str);
-
-    return buffer;
+    char* result = ToString("Squawk Log: %s", str);
+    free(str);
+    return result;
 }
 
-void Log::PrintAddInfo(char* str, int color)
-{
-    char* strResult = AddStrInfo(str);
-    // str is realloc-ed
-
-    if (strResult == nullptr)
-    {
-        return;
-    }
-
-    PrintWithColor(strResult, color);
-    free(strResult);
-}
-
-void Log::PrintFormatter(int color, const char* format, va_list args)
+char* Log::Evaluatef(const char* format, va_list args)
 {
     // Create a buffer with initial size of 256
     size_t size = 256;
@@ -70,7 +45,7 @@ void Log::PrintFormatter(int color, const char* format, va_list args)
     if (buffer == nullptr)
     {
         PrintWithColor("ERROR: Memory allocation failed!", CONSOLE_COLOR_RED);
-        return;
+        return nullptr;
     }
 
     size_t neededSize = vsnprintf(buffer, size, format, args);
@@ -83,14 +58,24 @@ void Log::PrintFormatter(int color, const char* format, va_list args)
         {
             PrintWithColor("ERROR: Memory reallocation failed!", CONSOLE_COLOR_RED);
             free(buffer);
-            return;
+            return nullptr;
         }
         buffer = newBuffer;
 
         vsnprintf(buffer, size, format, args);
     }
 
-    PrintAddInfo(buffer, color);
+    return buffer;
+}
+
+char* Log::ToString(const char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    char* result = Evaluatef(format, args);
+    va_end(args);
+
+    return result;
 }
 
 void Log::Print(const char* str)
@@ -103,8 +88,12 @@ void Log::Printf(const char* format, ...)
     // Read args in the ellipsis ... parameter
     va_list args;
     va_start(args, format);
-    PrintFormatter(CONSOLE_COLOR_WHITE, format, args);
+    char* result = Evaluatef(format, args);
     va_end(args);
+
+    result = AddStrInfo(result);
+    PrintWithColor(result, CONSOLE_COLOR_WHITE);
+    free(result);
 }
 
 void Log::Error(const char* err)
@@ -116,8 +105,12 @@ void Log::Errorf(const char* format, ...)
 {
     va_list args;
     va_start(args, format);
-    PrintFormatter(CONSOLE_COLOR_RED, format, args);
+    char* result = Evaluatef(format, args);
     va_end(args);
+
+    result = AddStrInfo(result);
+    PrintWithColor(result, CONSOLE_COLOR_RED);
+    free(result);
 }
 
 void Log::Warn(const char* warn)
@@ -129,6 +122,10 @@ void Log::Warnf(const char* format, ...)
 {
     va_list args;
     va_start(args, format);
-    PrintFormatter(CONSOLE_COLOR_YELLOW, format, args);
+    char* result = Evaluatef(format, args);
     va_end(args);
+
+    result = AddStrInfo(result);
+    PrintWithColor(result, CONSOLE_COLOR_YELLOW);
+    free(result);
 }

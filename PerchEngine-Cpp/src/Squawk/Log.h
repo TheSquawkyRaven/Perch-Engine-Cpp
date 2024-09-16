@@ -26,10 +26,11 @@ namespace Squawk
 		static void ResetColor();
 		static void PrintWithColor(const char* str, int color);
 		static char* AddStrInfo(char* str);
-		static void PrintAddInfo(char* str, int color = CONSOLE_COLOR_RESET);
-		static void PrintFormatter(int color, const char* format, va_list args);
+		static char* Evaluatef(const char* format, va_list args);
 
 	public:
+
+		PERCH_API static char* ToString(const char* format, ...);
 
 		PERCH_API static void Print(const char* str);
 		PERCH_API static void Printf(const char* format, ...);

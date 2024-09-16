@@ -1,9 +1,11 @@
 #include "pch.h"
 
 #include "Vector2.h"
+#include "../Squawk/Log.h"
 #include <cmath>
 
 using namespace std;
+using namespace Squawk;
 using namespace Perch;
 
 Vector2::Vector2()
@@ -175,12 +177,20 @@ Vector2& Vector2::operator/=(float const& other)
 	return *this;
 }
 
-bool Vector2::operator==(Vector2 const& other)
+bool Vector2::operator==(const Vector2& other)
 {
 	return x == other.x && y == other.y;
 }
 
-bool Vector2::operator!=(Vector2 const& other)
+bool Vector2::operator!=(const Vector2& other)
 {
 	return x != other.x && y != other.y;
+}
+
+string Vector2::ToString()
+{
+	char* s = Log::ToString("(%f, %f)", x, y);
+	string str(s);
+	free(s);
+	return str;
 }

@@ -12,6 +12,7 @@
 #include "Vector2i.h"
 
 #include <memory>
+#include <string>
 
 namespace Perch
 {
@@ -60,7 +61,6 @@ namespace Perch
 
 		PERCH_API operator Vector2i() const;
 
-		// TODO +=, -=, *=, /=
 		PERCH_API Vector2 operator+(Vector2 const& other);
 		PERCH_API Vector2& operator+=(Vector2 const& other);
 		PERCH_API Vector2 operator-(Vector2 const& other);
@@ -79,8 +79,10 @@ namespace Perch
 		PERCH_API Vector2 operator/(float const& other);
 		PERCH_API Vector2& operator/=(float const& other);
 
-		PERCH_API bool operator==(Vector2 const& other);
-		PERCH_API bool operator!=(Vector2 const& other);
+		PERCH_API bool operator==(const Vector2& other);
+		PERCH_API bool operator!=(const Vector2& other);
+
+		PERCH_API std::string ToString();
 
 	};
 

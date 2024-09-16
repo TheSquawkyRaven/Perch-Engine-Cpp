@@ -6,6 +6,7 @@
 #define PERCH_API __declspec(dllimport)
 #endif
 
+#include <string>
 
 namespace Perch
 {
@@ -30,6 +31,8 @@ namespace Perch
 		PERCH_API Vector2i();
 		PERCH_API Vector2i(int x, int y);
 		PERCH_API Vector2i(int val);
+
+		PERCH_API std::string ToString();
 
 	};
 

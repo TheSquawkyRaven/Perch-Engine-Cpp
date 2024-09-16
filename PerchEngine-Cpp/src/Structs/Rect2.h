@@ -13,6 +13,7 @@
 #include "Vector2i.h"
 
 #include <memory>
+#include <string>
 
 namespace Perch
 {
@@ -56,6 +57,8 @@ namespace Perch
 
 		PERCH_API bool PointIsIn(Vector2 point) const;
 		PERCH_API static bool PointIsIn(Vector2 point, Vector2 position, Vector2 size);
+
+		PERCH_API std::string ToString();
 
 	};
 
